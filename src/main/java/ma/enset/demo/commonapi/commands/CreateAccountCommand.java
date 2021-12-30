@@ -3,12 +3,12 @@ package ma.enset.demo.commonapi.commands;
 import lombok.Getter;
 
 public class CreateAccountCommand extends BaseCommand<String> {
-    @Getter    private double intialBalance;
+    @Getter    private double initialBalance;
     @Getter    private String currency;
 
-    public CreateAccountCommand(String id, double intialBalance, String currency) {
+    public CreateAccountCommand(String id, double initialBalance, String currency) {
         super(id);
-        this.intialBalance = intialBalance;
+        this.initialBalance = initialBalance;
         this.currency = currency;
     }
 }

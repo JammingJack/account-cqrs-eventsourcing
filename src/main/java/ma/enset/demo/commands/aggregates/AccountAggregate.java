@@ -25,11 +25,11 @@ public class AccountAggregate {
     @CommandHandler //meaning this constructor listens to a command and when it's there it handles it, we call this handle la fonction de decision
     public AccountAggregate(CreateAccountCommand createAccountCommand){
         //specify the bisuness logic
-        if(createAccountCommand.getIntialBalance() < 0) throw new RuntimeException("Cannot create an account with negative balance");
+        if(createAccountCommand.getInitialBalance() < 0) throw new RuntimeException("Cannot create an account with negative balance");
         //if all is good we emit an event
         AggregateLifecycle.apply(new AccountCreatedEvent(
                 createAccountCommand.getId(),
-                createAccountCommand.getIntialBalance(),
+                createAccountCommand.getInitialBalance(),
                 createAccountCommand.getCurrency()
         ));
     }
