@@ -2,6 +2,7 @@ package ma.enset.demo.commands.aggregates;
 
 import ma.enset.demo.commonapi.commands.CreateAccountCommand;
 import ma.enset.demo.commonapi.enums.AccountStatus;
+import ma.enset.demo.commonapi.events.AccountActivatedEvent;
 import ma.enset.demo.commonapi.events.AccountCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -40,6 +41,15 @@ public class AccountAggregate {
         this.balance = accountCreatedEvent.getInitialBalance();
         this.currency = accountCreatedEvent.getCurrency();
         this.status = AccountStatus.CREATED;
+
+        AggregateLifecycle.apply(new AccountActivatedEvent(
+                accountCreatedEvent.getId(),
+                AccountStatus.ACTIVATED
+        ));
+    }
+
+    public void on(AccountActivatedEvent accountActivatedEvent){
+        this.status = accountActivatedEvent.getStatus();
     }
 
 }
