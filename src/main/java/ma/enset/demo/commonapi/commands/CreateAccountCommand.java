@@ -1,8 +1,10 @@
 package ma.enset.demo.commonapi.commands;
 
-public class CreateAccountCommand<T> extends BaseCommand<String> {
-    private double intialBalance;
-    private String currency;
+import lombok.Getter;
+
+public class CreateAccountCommand extends BaseCommand<String> {
+    @Getter    private double intialBalance;
+    @Getter    private String currency;
 
     public CreateAccountCommand(String id, double intialBalance, String currency) {
         super(id);
