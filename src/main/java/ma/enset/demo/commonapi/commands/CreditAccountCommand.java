@@ -2,7 +2,7 @@ package ma.enset.demo.commonapi.commands;
 
 import lombok.Getter;
 
-public class CreditAccountCommand<T> extends BaseCommand<String> {
+public class CreditAccountCommand extends BaseCommand<String> {
     @Getter private double amount;
     @Getter private String currency;
 
