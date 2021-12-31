@@ -7,15 +7,19 @@ import ma.enset.demo.commonapi.events.AccountActivatedEvent;
 import ma.enset.demo.commonapi.events.AccountCreatedEvent;
 import ma.enset.demo.commonapi.events.AccountCreditedEvent;
 import ma.enset.demo.commonapi.events.AccountDebitedEvent;
+import ma.enset.demo.commonapi.queries.GetAccountByIdQuery;
+import ma.enset.demo.commonapi.queries.GetAllAccountsQuery;
 import ma.enset.demo.query.entities.Account;
 import ma.enset.demo.query.entities.Operation;
 import ma.enset.demo.query.repositories.AccountRepository;
 import ma.enset.demo.query.repositories.OperationRepository;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -75,4 +79,16 @@ public class AccountServiceHandler {
         operationRepository.save(operation);
         account.setBalance(account.getBalance() + event.getAmount());
         accountRepository.save(account);
-    }}
+    }
+    @QueryHandler
+    public List<Account> on(GetAllAccountsQuery getAllAccountsQuery){
+        return accountRepository.findAll();
+    }
+
+    @QueryHandler
+    public Account on(GetAccountByIdQuery getAccountQuery){
+        return accountRepository.findById(getAccountQuery.getId()).get();
+    }
+
+}
+
