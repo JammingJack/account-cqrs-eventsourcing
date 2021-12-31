@@ -7,7 +7,7 @@ import ma.enset.demo.commonapi.enums.AccountStatus;
 import ma.enset.demo.commonapi.events.AccountActivatedEvent;
 import ma.enset.demo.commonapi.events.AccountCreatedEvent;
 import ma.enset.demo.commonapi.events.AccountCreditedEvent;
-import ma.enset.demo.commonapi.events.AccountDebitedAccount;
+import ma.enset.demo.commonapi.events.AccountDebitedEvent;
 import ma.enset.demo.commonapi.exceptions.AmountNegativeException;
 import ma.enset.demo.commonapi.exceptions.InsufficientAccountBalanceException;
 import org.axonframework.commandhandling.CommandHandler;
@@ -78,7 +78,7 @@ public class AccountAggregate {
     public void handle(DebitAccountCommand debitAccountCommand){
         if(debitAccountCommand.getAmount() < 0) throw new AmountNegativeException("cannot credit an account with a negative amount");
         if(debitAccountCommand.getAmount() > this.balance) throw new InsufficientAccountBalanceException("cannot debit an amount greater than the account's balance");
-        AggregateLifecycle.apply(new AccountDebitedAccount(
+        AggregateLifecycle.apply(new AccountDebitedEvent(
                 debitAccountCommand.getId(),
                 debitAccountCommand.getAmount(),
                 debitAccountCommand.getCurrency()
@@ -86,8 +86,8 @@ public class AccountAggregate {
     }
 
     @EventSourcingHandler
-    public void on(AccountDebitedAccount accountDebitedAccount){
-        this.balance -= accountDebitedAccount.getAmount();
+    public void on(AccountDebitedEvent accountDebitedEvent){
+        this.balance -= accountDebitedEvent.getAmount();
     }
 
 }

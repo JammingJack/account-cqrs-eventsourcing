@@ -1,11 +1,14 @@
 package ma.enset.demo.query.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ma.enset.demo.commonapi.enums.OperationType;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
+@Entity @Data @AllArgsConstructor @NoArgsConstructor
 public class Operation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
